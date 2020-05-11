@@ -29,7 +29,7 @@
 
 export default {
   name: "Home",
-  components: {}
+  components: {},
 };
 </script>
 <style scoped>
@@ -62,17 +62,17 @@ export default {
   margin-bottom: 3rem;
   color: #fff;
   font-weight: bold;
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  /* font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-family: "Trade Winds", cursive;
   font-family: "Indie Flower", cursive;
   font-family: "Dancing Script", cursive;
-  font-family: "Permanent Marker", cursive;
+  font-family: "Permanent Marker", cursive; */
 }
 h4 {
   color: #fff;
   font-weight: bold;
-  font-family: "Trade Winds", cursive;
+  /* font-family: "Trade Winds", cursive;
   font-family: "Indie Flower", cursive;
-  font-family: "Dancing Script", cursive;
+  font-family: "Dancing Script", cursive; */
 }
 </style>

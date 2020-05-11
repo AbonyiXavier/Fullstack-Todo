@@ -37,28 +37,28 @@ export default {
   components: {
     Header,
     Todos,
-    AddTodo
+    AddTodo,
   },
   data() {
     return {
       todos: [],
       task: "",
-      todoItem: {}
+      todoItem: {},
     };
   },
   methods: {
     fetchTodos() {
       TodoService.getTodos()
         // .get("http://localhost:7000/api/todos")
-        .then(res => (this.todos = res.data.results))
-        .catch(err => console.log(err));
+        .then((res) => (this.todos = res.data.results))
+        .catch((err) => console.log(err));
     },
     markCompleted(todo) {
       // alert(todo.id);
       TodoService.updateTodo({
         id: todo.id,
         item: todo.item,
-        completed: !todo.completed
+        completed: !todo.completed,
       })
         // .patch(`http://localhost:7000/api/todo/${todo.id}`, {
         //   item: todo.item,
@@ -67,7 +67,7 @@ export default {
         .then(() => {
           this.fetchTodos();
         })
-        .catch(err => console.log("my error", err));
+        .catch((err) => console.log("my error", err));
     },
     ok() {
       let id = this.todoItem.id;
@@ -80,7 +80,7 @@ export default {
           this.$bvModal.hide("modal-1");
           this.fetchTodos();
         })
-        .catch(err => console.log("my error", err));
+        .catch((err) => console.log("my error", err));
     },
     editTodo(todo) {
       this.todoItem = todo;
@@ -90,36 +90,36 @@ export default {
       TodoService.deleteTodo(id)
         // .delete(`http://localhost:7000/api/todo/${id}`)
         .then(
-          res => (
-            (this.todos = this.todos.filter(todo => todo.id !== id)),
+          (res) => (
+            (this.todos = this.todos.filter((todo) => todo.id !== id)),
             res.data.results
           )
         )
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     },
     addTodo(newTodo) {
       const { item, completed } = newTodo;
       console.log(newTodo);
       TodoService.addTodo({
         item,
-        completed
+        completed,
       })
-        .then(res => {
+        .then((res) => {
           this.todos = [...this.todos, res.data.results];
           this.fetchTodos();
         })
-        .catch(err => console.log(err));
-    }
+        .catch((err) => console.log(err));
+    },
   },
   created() {
     TodoService.getTodos()
       // .get("http://localhost:7000/api/todos")
 
-      .then(res => {
+      .then((res) => {
         this.todos = res.data.results;
       })
-      .catch(err => console.log(err));
-  }
+      .catch((err) => console.log(err));
+  },
 };
 </script>
 
