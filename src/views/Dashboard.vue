@@ -30,7 +30,8 @@
 import Header from "../components/layout/Header";
 import Todos from "../components/Todos";
 import AddTodo from "../components/AddTodo";
-import axios from "axios";
+// import axios from "axios";
+import TodoService from "../services/TodoService.js";
 export default {
   name: "Dashboard",
   components: {
@@ -47,28 +48,34 @@ export default {
   },
   methods: {
     fetchTodos() {
-      axios
-        .get("http://localhost:7000/api/todos")
+      TodoService.getTodos()
+        // .get("http://localhost:7000/api/todos")
         .then(res => (this.todos = res.data.results))
         .catch(err => console.log(err));
     },
     markCompleted(todo) {
       // alert(todo.id);
-      axios
-        .patch(`http://localhost:7000/api/todo/${todo.id}`, {
-          item: todo.item,
-          completed: !todo.completed
-        })
+      TodoService.updateTodo({
+        id: todo.id,
+        item: todo.item,
+        completed: !todo.completed
+      })
+        // .patch(`http://localhost:7000/api/todo/${todo.id}`, {
+        //   item: todo.item,
+        //   completed: !todo.completed
+        // })
         .then(() => {
           this.fetchTodos();
         })
         .catch(err => console.log("my error", err));
     },
     ok() {
-      axios
-        .patch(`http://localhost:7000/api/todo/${this.todoItem.id}`, {
-          item: this.task
-        })
+      let id = this.todoItem.id;
+      TodoService.updateTodo(id, { item: this.task })
+        // .patch(`http://localhost:7000/api/todo/${this.todoItem.id}`, {
+        //   item: this.task
+        // })
+
         .then(() => {
           this.$bvModal.hide("modal-1");
           this.fetchTodos();
@@ -80,8 +87,8 @@ export default {
       this.task = todo.item;
     },
     deleteTodo(id) {
-      axios
-        .delete(`http://localhost:7000/api/todo/${id}`)
+      TodoService.deleteTodo(id)
+        // .delete(`http://localhost:7000/api/todo/${id}`)
         .then(
           res => (
             (this.todos = this.todos.filter(todo => todo.id !== id)),
@@ -93,11 +100,10 @@ export default {
     addTodo(newTodo) {
       const { item, completed } = newTodo;
       console.log(newTodo);
-      axios
-        .post("http://localhost:7000/api/todo", {
-          item,
-          completed
-        })
+      TodoService.addTodo({
+        item,
+        completed
+      })
         .then(res => {
           this.todos = [...this.todos, res.data.results];
           this.fetchTodos();
@@ -106,9 +112,12 @@ export default {
     }
   },
   created() {
-    axios
-      .get("http://localhost:7000/api/todos")
-      .then(res => (this.todos = res.data.results))
+    TodoService.getTodos()
+      // .get("http://localhost:7000/api/todos")
+
+      .then(res => {
+        this.todos = res.data.results;
+      })
       .catch(err => console.log(err));
   }
 };
